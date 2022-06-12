@@ -1,4 +1,5 @@
-# 
+## Customize configuration
+[Ссылка на демо](https://qnoqua.github.io/pokemons/).
 
 ## Project setup
 ```

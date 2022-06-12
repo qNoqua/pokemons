@@ -1,6 +1,5 @@
 <template>
   <div class="header">
-    <span v-on:click="this.$router.push('/')" class="logo">Pokemons</span>
     <input
       v-if="searchVisible"
       class="search"
@@ -9,6 +8,7 @@
       v-on:input="this.search"
       v-model="searchQuery"
     />
+    <span v-else v-on:click="this.$router.push('/')" class="logo">Pokemons</span>
   </div>
 </template>
 
@@ -39,15 +39,19 @@ export default {
 
 <style>
 .header {
+  position: sticky;
+  top: 0;
   display: flex;
   justify-content: space-between;
   width: 100%;
+  height: 64px;
   background: #607d8b;
   color: #fff;
   padding: 10px;
+  z-index: 10;
 }
 .logo {
-  margin: 10px;
+  margin: 5px;
   font-size: 24px;
   cursor: pointer;
 }

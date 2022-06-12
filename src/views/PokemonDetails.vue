@@ -1,9 +1,11 @@
 <template>
   <div class="page-container">
     <div class="card-container one-card">
-      <div class="exp-container">EXP: {{ details.base_experience }}</div>
+      <div class="pokemon-exp-container">
+        EXP: {{ details.base_experience }}
+      </div>
       <div class="pokemon-avatar-container">
-        <img v-bind:src="pokemonAvatar" />
+        <img v-on:click="getCharacter" v-bind:src="pokemonAvatar" />
       </div>
       <div class="pokemon-title-container">
         {{ pokemon.name }}
@@ -11,12 +13,9 @@
       <div class="pokemon-ability-container">
         <span>Ability:</span>
         <div>
-          <div
-            v-for="item of details.abilities"
-            v-bind:key="item.ability.name"
-          >
-            {{ item.ability.name.toUpperCase() }}
-          </div>
+          <span v-for="item of details.abilities" v-bind:key="item.ability.name">
+            {{ item.ability.name.toUpperCase() }}, 
+          </span>
         </div>
       </div>
       <div class="pokemon-stats-container">
@@ -92,13 +91,8 @@
 </template>
 
 <script>
-import { details } from "./index";
+
 export default {
-  data() {
-    return {
-      details: details,
-    };
-  },
   methods: {
     color(percent) {
       if (percent <= 25) return "red";
@@ -106,11 +100,16 @@ export default {
       else if (percent > 50 && percent <= 75) return "blue";
       return "yellow";
     },
+    getCharacter() {
+      console.log(this.$store.getters.pokemonCharacteristic);
+    },
   },
   computed: {
     pokemon() {
-      console.log(this.$store.getters.activePokemon)
       return this.$store.getters.activePokemon;
+    },
+    details() {
+      return this.$store.getters.pokemonCharacteristic;
     },
     pokemonStats() {
       let stats = {};
@@ -140,11 +139,11 @@ export default {
     if (this.pokemon.url) {
       url = this.pokemon.url;
     } else {
-      const name = this.$route.params.name;
-
-      url = `https://pokeapi.co/api/v2/pokemon/${name}`;
-      console.log(this.$route);
-      this.$store.commit("pushActivePokemon", { url: url, name: name });
+      url = `https://pokeapi.co/api/v2/pokemon/${this.$route.params.name}`;
+      this.$store.commit("pushActivePokemon", {
+        name: this.$route.params.name,
+        url: url,
+      });
     }
     this.$store.dispatch("requestCharacteristics", url);
   },
@@ -161,17 +160,15 @@ export default {
   align-items: center;
 }
 .one-card {
-  grid-template-rows: 1fr 4fr 1fr 1fr;
+  grid-template-rows: 1fr 4fr 1fr 1fr 50px;
   grid-gap: 5px;
 }
-.exp-container {
+.pokemon-exp-container {
   display: flex;
   justify-content: flex-end;
-  margin: 5px;
-  padding-right: 5px;
+  font-size: 12px;
   color: rgb(87, 87, 87);
 }
-
 .pokemon-ability-container {
   display: grid;
   grid-auto-flow: column;
@@ -185,8 +182,6 @@ export default {
   grid-template-columns: repeat(6, 1fr);
   justify-content: center;
   align-items: center;
-  margin: 2px;
-  margin-bottom: 11px;
   grid-gap: 5px;
 }
 .stat-container {
@@ -206,8 +201,8 @@ export default {
   align-self: center;
   justify-content: center;
   align-items: center;
-  height: 2em;
-  width: 0.7em;
+  height: 32px;
+  width: 18px;
   background: #dfe6e9;
   position: relative;
   border-radius: 2px;
@@ -224,6 +219,7 @@ export default {
 }
 .progress-bar > span {
   font-size: 9px;
+  z-index: 3;
 }
 .green {
   background: #55efc4;

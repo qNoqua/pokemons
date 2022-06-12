@@ -77,8 +77,9 @@ export default {
     },
   },
   mounted() {
-        this.$store.dispatch("requestPokemons");
-
+    if (this.getPokemons.length === 0) {
+      this.$store.dispatch("requestPokemons");
+    }
     this.getPaginationUrl = throttle(this.getPaginationUrl, 500);
   },
 };
