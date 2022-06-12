@@ -1,5 +1,5 @@
 {
-  "name": "",
+  "name": "pokemons",
   "version": "",
   "private": true,
   "scripts": {
@@ -9,7 +9,10 @@
   },
   "dependencies": {
     "core-js": "^3.8.3",
-    "vue": "^3.2.36"
+    "pokeapi-js-wrapper": "^1.2.2",
+    "vue": "^3.2.36",
+    "vue-router": "^4.0.15",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
