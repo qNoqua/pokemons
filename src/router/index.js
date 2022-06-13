@@ -1,14 +1,16 @@
 import { createRouter, createWebHistory } from "vue-router";
 import store from '../store'
+const publicPath = process.env.BASE_URL
+
 
 const routes = [
   {
-    path: "/",
+    path: publicPath,
     name: "main",
     component: () => import("@/views/PokemonsList.vue"),
   },
   { 
-    path: '/:name',
+    path: `${publicPath}:name`,
     name: 'detailed',
     component: () => import("@/views/PokemonDetails.vue"),
   }
@@ -19,14 +21,17 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to) => {
-  if(to.path === '/') {
+router.beforeEach((to, from, next) => {
+  if(to.path === publicPath) {
     store.commit('searchVisible', true)
-    
   }
   else {
     store.commit('searchVisible', false)
   }
+  if (publicPath !== '/' && to.path === '/'){
+    next({name: 'main'})
+  }
+  next();
 })
 
 export default router
