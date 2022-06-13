@@ -22,10 +22,15 @@ export const actions = {
 
       if (response.status === 200) {
         const result = await response.json();
-        results = result.forms;
+        result.forms.forEach(element => {
+          results.push({
+            name: element.name,
+            url: `https://pokeapi.co/api/v2/pokemon/${element.name}`
+          })
+        });
       }
       context.commit("setPokemons", {
-        count: 0,
+        count: results.length,
         next: null,
         previous: null,
         results: results,
