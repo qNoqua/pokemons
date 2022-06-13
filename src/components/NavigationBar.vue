@@ -8,7 +8,7 @@
       v-on:input="this.search"
       v-model="searchQuery"
     />
-    <span v-else v-on:click="this.$router.push('/')" class="logo">Pokemons</span>
+    <span v-else v-on:click="this.$router.push(publicPath)" class="logo">Pokemons</span>
   </div>
 </template>
 
@@ -19,6 +19,7 @@ export default {
   data() {
     return {
       searchQuery: "",
+      publicPath: process.env.BASE_URL
     };
   },
   methods: {
